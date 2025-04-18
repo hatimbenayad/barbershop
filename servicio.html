@@ -1,116 +1,736 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Smooth scroll for navigation links
-    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 60, // Adjust for sticky header
-                    behavior: 'smooth'
-                });
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios - Salah's Barbería</title>
+    <style>
+        :root {
+            --primary-color: #f1c40f;
+            --dark-bg: #1c1c1c;
+            --black: #000000;
+            --white: #ffffff;
+            --gray: #cccccc;
+            --hover-primary: #d4ac0d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            background-image: url('bar.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: -1;
+        }
+        
+        header {
+            background-color: rgba(28, 28, 28, 0.9);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-small {
+            display: none;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin: 0.5rem 1rem;
+        }
+        
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 5px;
+        }
+        
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+        
+        main {
+            min-height: 80vh;
+        }
+        
+        section {
+            margin: 4rem auto;
+            padding: 2rem;
+            max-width: 1200px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background-color: rgba(28, 28, 28, 0.9);
+            padding: 2rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(241, 196, 15, 0.2);
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            color: var(--primary-color);
+        }
+        
+        .service-card p {
+            color: var(--gray);
+            font-size: 1rem;
+            flex-grow: 1;
+        }
+        
+        .service-price {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+        
+        .page-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+        
+        .page-intro p {
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+        
+        .premium-services {
+            margin-top: 4rem;
+        }
+        
+        .premium-services h2 {
+            margin-bottom: 1rem;
+        }
+        
+        .premium-services .subtitle {
+            text-align: center;
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .service-feature {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            margin: 3rem 0;
+            gap: 2rem;
+        }
+        
+        .service-feature-img {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        
+        .service-feature-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .service-feature-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .service-feature-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .service-feature-text h3 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .service-feature-text p {
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+        
+        .service-feature-text .price {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--black);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin: 4rem auto;
+            padding: 3rem 2rem;
+            background-color: rgba(241, 196, 15, 0.1);
+            border-radius: 10px;
+            border: 2px solid var(--primary-color);
+        }
+        
+        .cta-section h3 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-section p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--primary-color);
+            color: var(--black);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--hover-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(241, 196, 15, 0.3);
+        }
+        
+        footer {
+            background-color: rgba(28, 28, 28, 0.9);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-top: 3px solid var(--primary-color);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-section p, .footer-section li {
+            margin: 0.5rem 0;
+            color: var(--gray);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        footer a:hover {
+            color: var(--hover-primary);
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: var(--black);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            z-index: 99;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--hover-primary);
+            transform: translateY(-5px);
+        }
+        
+        /* Page transitions */
+        .page-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .page-content.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Loading animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader::after {
+            content: '';
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Media Queries */
+        @media (max-width: 992px) {
+            .service-feature {
+                flex-direction: column;
             }
-        });
-    });
-
-    // Parallax effect for hero background
-    const heroSection = document.querySelector('.hero');
-    window.addEventListener('scroll', () => {
-        const scrollPosition = window.pageYOffset;
-        heroSection.style.backgroundPositionY = `${scrollPosition * 0.5}px`; // Subtle parallax
-    });
-
-    // Fade-in animation for hero content
-    const heroContent = document.querySelector('.hero-content');
-    heroContent.style.opacity = '0';
-    heroContent.style.transition = 'opacity 1s ease-in-out';
-    setTimeout(() => {
-        heroContent.style.opacity = '1';
-    }, 500); // Delay for a smoother load
-
-    // Set minimum date for the date picker to today
-    const dateInput = document.getElementById('date');
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.setAttribute('min', today);
-
-    // Form submission handling
-    const form = document.querySelector('form');
-    const submitButton = form.querySelector('button[type="submit"]');
-    const messageContainer = document.createElement('div');
-    messageContainer.className = 'form-message';
-    form.appendChild(messageContainer);
-
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        submitButton.disabled = true;
-        submitButton.textContent = 'Enviando...';
-
-        // Basic client-side validation
-        const name = form.querySelector('#name').value.trim();
-        const email = form.querySelector('#email').value.trim();
-        const date = form.querySelector('#date').value;
-        const haircut = form.querySelector('#haircut').value;
-        const barber = form.querySelector('#barber').value;
-
-        if (!name || !email || !date || !haircut || !barber) {
-            showMessage('Por favor, completa todos los campos.', 'error');
-            submitButton.disabled = false;
-            submitButton.textContent = 'Enviar Solicitud de Cita';
-            return;
+            
+            .service-feature:nth-child(even) {
+                flex-direction: column;
+            }
         }
-
-        // Check if selected date is within business hours
-        const selectedDate = new Date(date);
-        const dayOfWeek = selectedDate.getDay(); // 0 = Sunday, 6 = Saturday
-        if (dayOfWeek === 0) {
-            showMessage('Lo sentimos, estamos cerrados los domingos.', 'error');
-            submitButton.disabled = false;
-            submitButton.textContent = 'Enviar Solicitud de Cita';
-            return;
+        
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+                position: absolute;
+                right: 1rem;
+                top: 1rem;
+                z-index: 101;
+            }
+            
+            .logo-small {
+                display: block;
+                position: absolute;
+                left: 1rem;
+                top: 1rem;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                height: 100vh;
+                background-color: rgba(28, 28, 28, 0.95);
+                flex-direction: column;
+                justify-content: flex-start;
+                padding-top: 5rem;
+                transition: all 0.3s ease;
+                z-index: 100;
+            }
+            
+            nav ul.open {
+                right: 0;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            }
+            
+            nav ul li {
+                margin: 1rem 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav ul li a {
+                display: block;
+                padding: 1rem;
+            }
+            
+            section {
+                padding: 1.5rem;
+                margin: 2rem auto;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
         }
+        
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .service-card {
+                padding: 1.5rem;
+            }
+            
+            .service-feature-img {
+                min-height: 200px;
+            }
+            
+            .back-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader"></div>
+    
+    <header>
+        <img src="logo.png" alt="Salah's Barbería Logo" class="logo-small">
+        <nav>
+            <button class="hamburger">☰</button>
+            <ul>
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                <li><a href="servicios.html" class="nav-link active">Servicios</a></li>
+                <li><a href="galeria.html" class="nav-link">Galería</a></li>
+                <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+                <li><a href="acerca.html" class="nav-link">Acerca de</a></li>
+                <li><a href="reserva.html" class="nav-link">Reservar Hora</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        // Prepare form data
-        const formData = new FormData(form);
+    <main>
+        <div class="page-content active">
+            <section>
+                <h2>Nuestros Servicios</h2>
+                <div class="page-intro">
+                    <p>En Salah's Barbería ofrecemos una amplia gama de servicios de peluquería y barbería para hombres que buscan un look impecable. Nuestros barberos profesionales están aquí para ayudarte a encontrar tu estilo perfecto.</p>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">✂️</div>
+                        <h3>Corte Degradado</h3>
+                        <p>Un corte moderno con transición perfecta entre diferentes longitudes. Ideal para un look fresco y actualizado.</p>
+                        <div class="service-price">€10.00</div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">✂️</div>
+                        <h3>Corte Clásico</h3>
+                        <p>Un corte tradicional y elegante que nunca pasa de moda. Perfecto para quienes buscan un estilo refinado.</p>
+                        <div class="service-price">€10.00</div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">🪒</div>
+                        <h3>Corte + Barba</h3>
+                        <p>Servicio completo que incluye corte de pelo y arreglo de barba. Para un look totalmente renovado.</p>
+                        <div class="service-price">€14.00</div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">🪒</div>
+                        <h3>Corte + Afeitado</h3>
+                        <p>Combinación perfecta de corte de pelo con un afeitado clásico. Sal de la barbería con una apariencia impecable.</p>
+                        <div class="service-price">€12.00</div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">🪒</div>
+                        <h3>Afeitado Clásico</h3>
+                        <p>Afeitado tradicional con navaja y toalla caliente. Una experiencia relajante para un rostro perfectamente afeitado.</p>
+                        <div class="service-price">€8.00</div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">✂️</div>
+                        <h3>Corte Niño</h3>
+                        <p>Cortes especiales para los más pequeños. Ambiente familiar y atención especializada para ellos.</p>
+                        <div class="service-price">€9.00</div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">✂️</div>
+                        <h3>Corte Jubilado</h3>
+                        <p>Precio especial para nuestros clientes jubilados. El mismo servicio de calidad con un descuento especial.</p>
+                        <div class="service-price">€8.00</div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">✨</div>
+                        <h3>Desvanecimiento de la Piel</h3>
+                        <p>Técnica especializada de degradado que llega hasta la piel para un look moderno y limpio.</p>
+                        <div class="service-price">€12.00</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="premium-services">
+                <h2>Servicios Premium</h2>
+                <p class="subtitle">Experiencias exclusivas de barbería para quienes buscan un servicio excepcional</p>
+                
+                <div class="service-feature">
+                    <div class="service-feature-img">
+                        <img src="premium1.jpg" alt="Servicio Premium de Barbería">
+                    </div>
+                    <div class="service-feature-text">
+                        <h3>Experiencia VIP Completa</h3>
+                        <p>Disfruta de nuestro servicio más completo que incluye corte de pelo personalizado, arreglo de barba, masaje facial, afeitado con navaja y tratamiento hidratante. Una experiencia relajante de 60 minutos para renovarte por completo.</p>
+                        <p>El servicio incluye una bebida a elección y atención personalizada de nuestros mejores barberos.</p>
+                        <span class="price">€25.00</span>
+                    </div>
+                </div>
+                
+                <div class="service-feature">
+                    <div class="service-feature-text">
+                        <h3>Tratamiento Capilar Revitalizante</h3>
+                        <p>Devuelve la vida a tu cabello con nuestro tratamiento especial que incluye masaje craneal, aplicación de serum nutritivo y acondicionador profundo. Ideal para cabellos dañados o estresados.</p>
+                        <p>Finaliza con un styling profesional para lucir un cabello sano y con brillo.</p>
+                        <span class="price">€18.00</span>
+                    </div>
+                    <div class="service-feature-img">
+                        <img src="premium2.jpg" alt="Tratamiento Capilar">
+                    </div>
+                </div>
+            </section>
+            
+            <section class="cta-section">
+                <h3>¿Listo para renovar tu imagen?</h3>
+                <p>Reserva ahora tu cita y déjate atender por nuestros expertos barberos. Garantizamos una experiencia única y un resultado que superará tus expectativas.</p>
+                <a href="reserva.html" class="cta-button">Reservar Ahora</a>
+            </section>
+        </div>
+    </main>
 
-        try {
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Salah's Barbería</h3>
+                <p>Tu barbería de confianza en Albacete, donde estilo y precisión se encuentran en cada corte.</p>
+                <div class="social-links">
+                    <a href="https://facebook.com/Salah-barbershop-102559941218559" target="_blank">📱 Facebook</a>
+                    <a href="https://instagram.com/barberia_salah" target="_blank">📸 Instagram</a>
+                    <a href="https://tiktok.com/@barberia_salah" target="_blank">🎵 TikTok</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Horario</h3>
+                <ul>
+                    <li>Lunes a Viernes: 10h - 21h</li>
+                    <li>Sábado: 11h - 20:30h</li>
+                    <li>Domingo: Cerrado</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul>
+                    <li>📞 +34 631 04 68 37</li>
+                    <li>✉️ salah@barberia-salah.com</li>
+                    <li>📍 C. Alcalde Conangla, 72, 02001 Albacete, España</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 Salah's Barbería. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <div class="back-to-top">↑</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loader after page load
+            setTimeout(() => {
+                const loader = document.querySelector('.loader');
+                loader.classList.add('hidden');
+            }, 800);
+            
+            // Mobile menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('nav ul');
+            
+            hamburger.addEventListener('click', function() {
+                navMenu.classList.toggle('open');
+                hamburger.textContent = navMenu.classList.contains('open') ? '✕' : '☰';
+            });
+            
+            // Close mobile menu when clicking a link
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navMenu.classList.remove('open');
+                    hamburger.textContent = '☰';
+                });
+            });
+            
+            // Back to top button
+            const backToTopButton = document.querySelector('.back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
                 }
             });
-
-            if (response.ok) {
-                showMessage('¡Solicitud de cita enviada! Revisa tu correo para la confirmación.', 'success');
-                form.reset();
-            } else {
-                throw new Error('Error al enviar la solicitud.');
-            }
-        } catch (error) {
-            showMessage('Error al enviar la solicitud. Intenta de nuevo más tarde.', 'error');
-        } finally {
-            submitButton.disabled = false;
-            submitButton.textContent = 'Enviar Solicitud de Cita';
-        }
-    });
-
-    // Function to display messages
-    function showMessage(message, type) {
-        messageContainer.textContent = message;
-        messageContainer.style.color = type === 'success' ? '#28a745' : '#dc3545';
-        messageContainer.style.backgroundColor = type === 'success' ? 'rgba(40, 167, 69, 0.1)' : 'rgba(220, 53, 69, 0.1)';
-        messageContainer.style.padding = '0.5rem';
-        messageContainer.style.borderRadius = '5px';
-        messageContainer.style.marginTop = '1rem';
-        messageContainer.style.textAlign = 'center';
-        messageContainer.style.fontWeight = 'bold';
-
-        // Clear message after 5 seconds
-        setTimeout(() => {
-            messageContainer.textContent = '';
-            messageContainer.style.backgroundColor = 'transparent';
-        }, 5000);
-    }
-});
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Show page content with animation
+            setTimeout(() => {
+                const pageContent = document.querySelector('.page-content');
+                pageContent.style.opacity = '1';
+                pageContent.style.transform = 'translateY(0)';
+            }, 500);
+        });
+    </script>
+</body>
+</html>
