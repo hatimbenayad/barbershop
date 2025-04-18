@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salah's Barbería - Reserva tu Cita</title>
-    <li><a href="servicios.html" class="nav-link">Servicios</a></li>
+    <title>Hatim Barbería - Reserva tu Cita</title>
     <style>
         :root {
             --primary-color: #f1c40f;
@@ -539,7 +538,6 @@
             transform: translateY(-5px);
         }
         
-        /* Page transitions */
         .page-content {
             opacity: 0;
             transform: translateY(20px);
@@ -551,7 +549,6 @@
             transform: translateY(0);
         }
         
-        /* Loading animation */
         .loader {
             position: fixed;
             top: 0;
@@ -585,7 +582,6 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Media Queries */
         @media (max-width: 992px) {
             .hero h1 {
                 font-size: 3rem;
@@ -710,7 +706,7 @@
     <div class="loader"></div>
     
     <header>
-        <img src="logo.png" alt="Salah's Barbería Logo" class="logo-small">
+        <img src="logo.png" alt="Hatim Barbería Logo" class="logo-small">
         <nav>
             <button class="hamburger">☰</button>
             <ul>
@@ -725,12 +721,11 @@
     </header>
 
     <main>
-        <!-- Home Page -->
         <div id="inicio-page" class="page-content active">
             <section class="hero">
                 <div class="hero-content">
-                    <img src="logo.png" alt="Salah's Barbería Logo" class="logo">
-                    <h1>Salah's Barbería</h1>
+                    <img src="logo.png" alt="Hatim Barbería Logo" class="logo">
+                    <h1>Hatim Barbería</h1>
                     <p>Tu barbería de confianza en Albacete, donde el estilo se encuentra con la precisión</p>
                     <div class="cta-buttons">
                         <a href="reserva.html" class="cta-button">Reservar Hora</a>
@@ -759,7 +754,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>Salah's Barbería</h3>
+                <h3>Hatim Barbería</h3>
                 <p>Tu barbería de confianza en Albacete, donde estilo y precisión se encuentran en cada corte.</p>
                 <div class="social-links">
                     <a href="https://facebook.com/Salah-barbershop-102559941218559" target="_blank">📱 Facebook</a>
@@ -779,13 +774,13 @@
                 <h3>Contacto</h3>
                 <ul>
                     <li>📞 +34 631 04 68 37</li>
-                    <li>✉️ salah@barberia-salah.com</li>
+                    <li>✉️ hatim@barberia-hatim.com</li>
                     <li>📍 C. Alcalde Conangla, 72, 02001 Albacete, España</li>
                 </ul>
             </div>
         </div>
         <div class="copyright">
-            <p>© 2025 Salah's Barbería. Todos los derechos reservados.</p>
+            <p>© 2025 Hatim Barbería. Todos los derechos reservados.</p>
         </div>
     </footer>
 
@@ -808,13 +803,21 @@
                 hamburger.textContent = navMenu.classList.contains('open') ? '✕' : '☰';
             });
             
-            // Close mobile menu when clicking a link
+            // Close mobile menu when clicking a nav link
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
-                link.addEventListener('click', function() {
+                link.addEventListener('click', function(event) {
                     navMenu.classList.remove('open');
                     hamburger.textContent = '☰';
                 });
+            });
+
+            // Diagnostic for "Ver Servicios" link
+            const verServiciosLink = document.querySelector('.secondary-button');
+            verServiciosLink.addEventListener('click', function(event) {
+                console.log('Ver Servicios clicked, navigating to:', this.href);
+                // Fallback navigation in case default behavior is blocked
+                window.location.href = this.href;
             });
             
             // Back to top button
