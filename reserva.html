@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservar Hora - Salah's Barbería</title>
+    <style>
+        :root {
+            --primary-color: #f1c40f;
+            --dark-bg: #1c1c1c;
+            --black: #000000;
+            --white: #ffffff;
+            --gray: #cccccc;
+            --hover-primary: #d4ac0d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            background-image: url('bar.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: -1;
+        }
+        
+        header {
+            background-color: rgba(28, 28, 28, 0.9);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-small {
+            display: none;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin: 0.5rem 1rem;
+        }
+        
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 5px;
+        }
+        
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+        
+        main {
+            min-height: 80vh;
+        }
+        
+        section {
+            margin: 4rem auto;
+            padding: 2rem;
+            max-width: 1200px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .page-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+        
+        .page-intro p {
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        label {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+        
+        input, select {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus {
+            background-color: rgba(255, 255, 255, 0.2);
+            outline: 2px solid var(--primary-color);
+        }
+        
+        button {
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: var(--black);
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: var(--hover-primary);
+            transform: scale(1.05);
+        }
+        
+        button:disabled {
+            background-color: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .form-message {
+            font-size: 1rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .form-message.show {
+            opacity: 1;
+        }
+        
+        footer {
+            background-color: rgba(28, 28, 28, 0.9);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-top: 3px solid var(--primary-color);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-section p, .footer-section li {
+            margin: 0.5rem 0;
+            color: var(--gray);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        footer a:hover {
+            color: var(--hover-primary);
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: var(--black);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            z-index: 99;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--hover-primary);
+            transform: translateY(-5px);
+        }
+        
+        /* Page transitions */
+        .page-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .page-content.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Loading animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader::after {
+            content: '';
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+                position: absolute;
+                right: 1rem;
+                top: 1rem;
+                z-index: 101;
+            }
+            
+            .logo-small {
+                display: block;
+                position: absolute;
+                left: 1rem;
+                top: 1rem;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                height: 100vh;
+                background-color: rgba(28, 28, 28, 0.95);
+                flex-direction: column;
+                justify-content: flex-start;
+                padding-top: 5rem;
+                transition: all 0.3s ease;
+                z-index: 100;
+            }
+            
+            nav ul.open {
+                right: 0;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            }
+            
+            nav ul li {
+                margin: 1rem 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav ul li a {
+                display: block;
+                padding: 1rem;
+            }
+            
+            section {
+                padding: 1.5rem;
+                margin: 2rem auto;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .back-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader"></div>
+    
+    <header>
+        <img src="logo.png" alt="Salah's Barbería Logo" class="logo-small">
+        <nav>
+            <button class="hamburger">☰</button>
+            <ul>
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                <li><a href="servicios.html" class="nav-link">Servicios</a></li>
+                <li><a href="galeria.html" class="nav-link">Galería</a></li>
+                <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+                <li><a href="acerca.html" class="nav-link">Acerca de</a></li>
+                <li><a href="reserva.html" class="nav-link active">Reservar Hora</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-content active">
+            <section>
+                <h2>Reserva tu Cita</h2>
+                <div class="page-intro">
+                    <p>Programa tu visita a Salah's Barbería usando el formulario a continuación. ¡Recibirás una confirmación por correo electrónico!</p>
+                </div>
+                
+                <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+                    <label for="name">Nombre Completo:</label>
+                    <input type="text" id="name" name="name" required placeholder="Introduce tu nombre completo">
+
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="email" id="email" name="email" required placeholder="Introduce tu correo electrónico">
+
+                    <label for="date">Fecha Preferida:</label>
+                    <input type="date" id="date" name="date" required>
+
+                    <label for="haircut">Tipo de Servicio:</label>
+                    <select id="haircut" name="haircut" required>
+                        <option value="" disabled selected>Selecciona un servicio</option>
+                        <option value="Corte Degradado">Corte Degradado - €10.00</option>
+                        <option value="Corte Clásico">Corte Clásico - €10.00</option>
+                        <option value="Corte + Barba">Corte + Barba - €14.00</option>
+                        <option value="Corte + Afeitado">Corte + Afeitado - €12.00</option>
+                        <option value="Afeitado Clásico">Afeitado Clásico - €8.00</option>
+                        <option value="Corte Niño">Corte Niño - €9.00</option>
+                        <option value="Corte Jubilado">Corte Jubilado - €8.00</option>
+                        <option value="Desvanecimiento de la Piel">Desvanecimiento de la Piel - €12.00</option>
+                        <option value="Experiencia VIP Completa">Experiencia VIP Completa - €25.00</option>
+                        <option value="Tratamiento Capilar Revitalizante">Tratamiento Capilar Revitalizante - €18.00</option>
+                    </select>
+
+                    <label for="barber">Elige un Barbero:</label>
+                    <select id="barber" name="barber" required>
+                        <option value="" disabled selected>Selecciona un barbero</option>
+                        <option value="Salah">Salah</option>
+                        <option value="Jose">Jose</option>
+                        <option value="Ali">Ali</option>
+                    </select>
+
+                    <button type="submit">Enviar Solicitud de Cita</button>
+                    <div class="form-message"></div>
+                </form>
+                
+                <p style="text-align: center; margin-top: 2rem; color: var(--gray);">
+                    Contacta con nosotros en <a href="mailto:salah@barberia-salah.com">salah@barberia-salah.com</a> o llama al +34 631 04 68 37.
+                </p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Salah's Barbería</h3>
+                <p>Tu barbería de confianza en Albacete, donde estilo y precisión se encuentran en cada corte.</p>
+                <div class="social-links">
+                    <a href="https://facebook.com/Salah-barbershop-102559941218559" target="_blank">📱 Facebook</a>
+                    <a href="https://instagram.com/barberia_salah" target="_blank">📸 Instagram</a>
+                    <a href="https://tiktok.com/@barberia_salah" target="_blank">🎵 TikTok</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Horario</h3>
+                <ul>
+                    <li>Lunes a Viernes: 10h - 21h</li>
+                    <li>Sábado: 11h - 20:30h</li>
+                    <li>Domingo: Cerrado</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul>
+                    <li>📞 +34 631 04 68 37</li>
+                    <li>✉️ salah@barberia-salah.com</li>
+                    <li>📍 C. Alcalde Conangla, 72, 02001 Albacete, España</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 Salah's Barbería. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <div class="back-to-top">↑</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loader after page load
+            setTimeout(() => {
+                const loader = document.querySelector('.loader');
+                loader.classList.add('hidden');
+            }, 800);
+            
+            // Mobile menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('nav ul');
+            
+            hamburger.addEventListener('click', function() {
+                navMenu.classList.toggle('open');
+                hamburger.textContent = navMenu.classList.contains('open') ? '✕' : '☰';
+            });
+            
+            // Close mobile menu when clicking a link
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navMenu.classList.remove('open');
+                    hamburger.textContent = '☰';
+                });
+            });
+            
+            // Back to top button
+            const backToTopButton = document.querySelector('.back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Show page content with animation
+            setTimeout(() => {
+                const pageContent = document.querySelector('.page-content');
+                pageContent.style.opacity = '1';
+                pageContent.style.transform = 'translateY(0)';
+            }, 500);
+
+            // Set minimum date for the date picker to today
+            const dateInput = document.getElementById('date');
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+
+            // Form submission handling
+            const form = document.querySelector('form');
+            const submitButton = form.querySelector('button[type="submit"]');
+            const messageContainer = document.querySelector('.form-message');
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                submitButton.disabled = true;
+                submitButton.textContent = 'Enviando...';
+
+                // Client-side validation
+                const name = form.querySelector('#name').value.trim();
+                const email = form.querySelector('#email').value.trim();
+                const date = form.querySelector('#date').value;
+                const haircut = form.querySelector('#haircut').value;
+                const barber = form.querySelector('#barber').value;
+
+                if (!name || !email || !date || !haircut || !barber) {
+                    showMessage('Por favor, completa todos los campos.', 'error');
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Enviar Solicitud de Cita';
+                    return;
+                }
+
+                // Check if selected date is within business hours
+                const selectedDate = new Date(date);
+                const dayOfWeek = selectedDate.getDay(); // 0 = Sunday, 6 = Saturday
+                if (dayOfWeek === 0) {
+                    showMessage('Lo sentimos, estamos cerrados los domingos.', 'error');
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Enviar Solicitud de Cita';
+                    return;
+                }
+
+                // Prepare form data
+                const formData = new FormData(form);
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        showMessage('¡Solicitud de cita enviada! Revisa tu correo para la confirmación.', 'success');
+                        form.reset();
+                    } else {
+                        throw new Error('Error al enviar la solicitud.');
+                    }
+                } catch (error) {
+                    showMessage('Error al enviar la solicitud. Intenta de nuevo más tarde.', 'error');
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Enviar Solicitud de Cita';
+                }
+            });
+
+            // Function to display messages
+            function showMessage(message, type) {
+                messageContainer.textContent = message;
+                messageContainer.style.color = type === 'success' ? '#28a745' : '#dc3545';
+                messageContainer.style.backgroundColor = type === 'success' ? 'rgba(40, 167, 69, 0.1)' : 'rgba(220, 53, 69, 0.1)';
+                messageContainer.classList.add('show');
+
+                // Clear message after 5 seconds
+                setTimeout(() => {
+                    messageContainer.textContent = '';
+                    messageContainer.classList.remove('show');
+                    messageContainer.style.backgroundColor = 'transparent';
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>
