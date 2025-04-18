@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salah's Barbería - Reserva tu Cita</title>
+    <link rel="stylesheet" href="body.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#galeria">Galería</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="#acerca">Acerca de</a></li>
+                <li><a href="#reserva">Reservar Hora</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <img src="logo.png" alt="hatim's Barbería Logo" class="logo">
+            <h1>Salah's Barbería</h1>
+            <a href="#reserva" class="cta-button">Reservar Hora</a>
+        </div>
+    </section>
+
+    <section id="contact-info">
+        <div class="contact-item">
+            <span class="icon">📞</span>
+            <p>+34 631 04 68 37<br>Atención al cliente</p>
+        </div>
+        <div class="contact-item">
+            <span class="icon">📍</span>
+            <p>C. Alcalde Conangla, 72, 02001<br>Albacete, España</p>
+        </div>
+        <div class="contact-item">
+            <span class="icon">⏰</span>
+            <p>Abierto de lunes a viernes<br>10h – 21h (sábado 11h – 20:30h)</p>
+        </div>
+    </section>
+
+    <section id="servicios">
+        <h2>Nuestros Servicios</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">✂️</div>
+                <h3>Corte de Pelo</h3>
+                <p>Descubre tu estilo con nosotros. Expertos en cortes de pelo para una apariencia espectacular.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">✂️</div>
+                <h3>Corte Largo</h3>
+                <p>Transforma tu melena larga con nosotros. El corte perfecto para un look impresionante.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🪒</div>
+                <h3>Corte de Barba</h3>
+                <p>Define tu estilo con nuestro corte de barba profesional. Eleva tu apariencia con precisión.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🪒</div>
+                <h3>Desvanecimiento de la Piel</h3>
+                <p>Logra una piel impecable con nuestro servicio de desvanecimiento. La belleza en cada detalle.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="reserva">
+        <h2>Reserva tu Cita</h2>
+        <p>Programa tu visita usando el formulario a continuación. ¡Recibirás una confirmación por correo!</p>
+        <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+            <label for="name">Nombre Completo:</label>
+            <input type="text" id="name" name="name" required placeholder="Introduce tu nombre completo">
+
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required placeholder="Introduce tu correo electrónico">
+
+            <label for="date">Fecha Preferida:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="haircut">Tipo de Corte:</label>
+            <select id="haircut" name="haircut" required>
+                <option value="" disabled selected>Selecciona un servicio</option>
+                <option value="Corte Degradado">Corte Degradado - €10.00</option>
+                <option value="Corte Clásico">Corte Clásico - €10.00</option>
+                <option value="Corte + Barba">Corte + Barba - €14.00</option>
+                <option value="Corte + Afeitado">Corte + Afeitado - €12.00</option>
+                <option value="Afeitado Clásico">Afeitado Clásico - €8.00</option>
+                <option value="Corte Niño">Corte Niño - €9.00</option>
+                <option value="Corte Jubilado">Corte Jubilado - €8.00</option>
+            </select>
+
+            <label for="barber">Elige un Barbero:</label>
+            <select id="barber" name="barber" required>
+                <option value="" disabled selected>Selecciona un barbero</option>
+                <option value="Salah">Salah</option>
+                <option value="Jose">Jose</option>
+                <option value="Ali">Ali</option>
+            </select>
+
+            <button type="submit">Enviar Solicitud de Cita</button>
+        </form>
+        <p>Contacta con nosotros en <a href="mailto:salah@barberia-salah.com">salah@barberia-salah.com</a> o llama al 631 04 68 37.</p>
+    </section>
+
+    <section id="acerca">
+        <h2>Nosotros</h2>
+        <div class="about-content">
+            <p>Somos tu destino de confianza para el mejor cuidado masculino en Albacete. Nuestro talentoso equipo de barberos combina experiencia y estilo para brindarte cortes de pelo y cuidado de barba excepcionales.</p>
+            <p>En un ambiente acogedor y amigable, te garantizamos una experiencia de grooming que te hará lucir y sentirte impecable.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 hatim's Barbería. Todos los derechos reservados.</p>
+        <p>Dirección: C. Alcalde Conangla, 72, 02001 Albacete, España</p>
+        <p>Contacto: <a href="mailto:salah@barberia-salah.com">hatimbenayad@barberia-hatim.com</a> | 631 04 68 37</p>
+        <p>Síguenos en <a href="https://facebook.com/Salah-barbershop-102559941218559" target="_blank">Facebook</a> | <a href="https://instagram.com/barberia_salah" target="_blank">Instagram</a> | <a href="https://tiktok.com/@barberia_salah" target="_blank">TikTok</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
