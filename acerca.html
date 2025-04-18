@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acerca de - Hatim Barbería</title>
+    <style>
+        :root {
+            --primary-color: #f1c40f;
+            --dark-bg: #1c1c1c;
+            --black: #000000;
+            --white: #ffffff;
+            --gray: #cccccc;
+            --hover-primary: #d4ac0d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            background-image: url('bar.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+        
+        header {
+            background-color: rgba(28, 28, 28, 0.9);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-small {
+            display: none;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin: 0.5rem 1rem;
+        }
+        
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 5px;
+        }
+        
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+        
+        main {
+            min-height: 80vh;
+        }
+        
+        section {
+            margin: 4rem auto;
+            padding: 2rem;
+            max-width: 1200px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .about-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .about-content p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .team-member {
+            background-color: rgba(28, 28 Thumbnail28, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(241, 196, 15, 0.2);
+        }
+        
+        .team-member img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        .team-member-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .team-member-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-member-info p {
+            color: var(--gray);
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin: 4rem auto;
+            padding: 3rem 2rem;
+            background-color: rgba(241, 196, 15, 0.1);
+            border-radius: 10px;
+            border: 2px solid var(--primary-color);
+        }
+        
+        .cta-section h3 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-section p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--primary-color);
+            color: var(--black);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--hover-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(241, 196, 15, 0.3);
+        }
+        
+        footer {
+            background-color: rgba(28, 28, 28, 0.9);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-top: 3px solid var(--primary-color);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-section p, .footer-section li {
+            margin: 0.5rem 0;
+            color: var(--gray);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        footer a:hover {
+            color: var(--hover-primary);
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: var(--black);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            z-index: 99;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--hover-primary);
+            transform: translateY(-5px);
+        }
+        
+        .page-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .page-content.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader::after {
+            content: '';
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 992px) {
+            .team-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+                position: absolute;
+                right: 1rem;
+                top: 1rem;
+                z-index: 101;
+            }
+            
+            .logo-small {
+                display: block;
+                position: absolute;
+                left: 1rem;
+                top: 1rem;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                height: 100vh;
+                background-color: rgba(28, 28, 28, 0.95);
+                flex-direction: column;
+                justify-content: flex-start;
+                padding-top: 5rem;
+                transition: all 0.3s ease;
+                z-index: 100;
+            }
+            
+            nav ul.open {
+                right: 0;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            }
+            
+            nav ul li {
+                margin: 1rem 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav ul li a {
+                display: block;
+                padding: 1rem;
+            }
+            
+            section {
+                padding: 1.5rem;
+                margin: 2rem auto;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .team-member img {
+                height: 200px;
+            }
+            
+            .back-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader"></div>
+    
+    <header>
+        <img src="logo.png" alt="Hatim Barbería Logo" class="logo-small">
+        <nav>
+            <button class="hamburger">☰</button>
+            <ul>
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                <li><a href="servicios.html" class="nav-link">Servicios</a></li>
+                <li><a href="galeria.html" class="nav-link">Galería</a></li>
+                <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+                <li><a href="acerca.html" class="nav-link active">Acerca de</a></li>
+                <li><a href="reserva.html" class="nav-link">Reservar Hora</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-content active">
+            <section>
+                <h2>Acerca de Hatim Barbería</h2>
+                <div class="about-content">
+                    <p>Fundada en 2015, Hatim Barbería nació con la visión de ofrecer una experiencia de barbería única en Albacete. Nuestro fundador, Hatim, un apasionado del estilo masculino, quiso combinar técnicas tradicionales con un enfoque moderno para crear cortes y estilos que resalten la personalidad de cada cliente.</p>
+                    <p>En Hatim Barbería, nos enorgullece ser más que una barbería: somos un espacio donde los hombres pueden relajarse, renovarse y sentirse seguros con su apariencia. Cada servicio está diseñado para brindar calidad y precisión, utilizando productos de primera línea y un trato personalizado.</p>
+                    <p>Nuestra misión es simple: ayudarte a lucir tu mejor versión mientras disfrutas de un momento de desconexión en un ambiente acogedor y profesional.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>Nuestro Equipo</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="team1.jpg" alt="Hatim - Barbero Principal">
+                        <div class="team-member-info">
+                            <h3>Hatim</h3>
+                            <p>Barbero Principal y Fundador</p>
+                            <p>Con más de 15 años de experiencia, Hatim es el corazón de nuestra barbería. Su pasión por el arte de la barbería y su atención al detalle aseguran que cada cliente salga con un look impecable.</p>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="team2.jpg" alt="Carlos - Barbero">
+                        <div class="team-member-info">
+                            <h3>Carlos</h3>
+                            <p>Barbero</p>
+                            <p>Carlos se especializa en cortes modernos y degradados, aportando un estilo fresco y juvenil. Su amabilidad y profesionalismo lo convierten en un favorito entre nuestros clientes.</p>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="team3.jpg" alt="Laura - Estilista">
+                        <div class="team-member-info">
+                            <h3>Laura</h3>
+                            <p>Estilista</p>
+                            <p>Laura aporta su experiencia en cuidado del cabello y arreglo personal. Es experta en tratamientos capilares y siempre tiene un consejo para mantener tu cabello en óptimas condiciones.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cta-section">
+                <h3>¿Listo para un Cambio de Estilo?</h3>
+                <p>Ven a Hatim Barbería y descubre por qué somos la elección preferida en Albacete. Reserva tu cita hoy y déjate cuidar por nuestro equipo de profesionales.</p>
+                <a href="reserva.html" class="cta-button">Reservar Hora</a>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Hatim Barbería</h3>
+                <p>Tu barbería de confianza en Albacete, donde estilo y precisión se encuentran en cada corte.</p>
+                <div class="social-links">
+                    <a href="https://facebook.com/Salah-barbershop-102559941218559" target="_blank">📱 Facebook</a>
+                    <a href="https://instagram.com/barberia_salah" target="_blank">📸 Instagram</a>
+                    <a href="https://tiktok.com/@barberia_salah" target="_blank">🎵 TikTok</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Horario</h3>
+                <ul>
+                    <li>Lunes a Viernes: 10h - 21h</li>
+                    <li>Sábado: 11h - 20:30h</li>
+                    <li>Domingo: Cerrado</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul>
+                    <li>📞 +34 631 04 68 37</li>
+                    <li>✉️ hatim@barberia-hatim.com</li>
+                    <li>📍 C. Alcalde Conangla, 72, 02001 Albacete, España</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 Hatim Barbería. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <div class="back-to-top">↑</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loader after page load
+            setTimeout(() => {
+                const loader = document.querySelector('.loader');
+                loader.classList.add('hidden');
+            }, 1000);
+            
+            // Mobile menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('nav ul');
+            
+            hamburger.addEventListener('click', function() {
+                navMenu.classList.toggle('open');
+                hamburger.textContent = navMenu.classList.contains('open') ? '✕' : '☰';
+            });
+            
+            // Close mobile menu when clicking a nav link
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    navMenu.classList.remove('open');
+                    hamburger.textContent = '☰';
+                });
+            });
+            
+            // Back to top button
+            const backToTopButton = document.querySelector('.back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Show page content with animation
+            setTimeout(() => {
+                const activeContent = document.querySelector('.page-content.active');
+                if (activeContent) {
+                    activeContent.style.opacity = '1';
+                    activeContent.style.transform = 'translateY(0)';
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
